@@ -53,7 +53,7 @@ public class Cart {
                 return false;
             }
         } catch (InterruptedException e) {
-            System.out.println("Loading is interrupted.");
+            LOGGER.error("Loading is interrupted.");
             return false;
         } finally {
             l.unlock();
@@ -66,7 +66,7 @@ public class Cart {
 
     private void waitForLoadingPossible() throws InterruptedException {
         while (!isLoading()) {
-            System.out.println("Loading is waiting");
+            LOGGER.debug("Loading is waiting");
             loading.await();
         }
     }
@@ -75,11 +75,11 @@ public class Cart {
         l.lock();
         try {
             while (isLoading) {
-                System.out.println("Unload is waiting");
+                LOGGER.debug("Unload is waiting");
                 try {
                     unloading.await();
                 } catch (InterruptedException e) {
-                    System.out.println("Loader is interrupted.");
+                    LOGGER.error("Loader is interrupted.");
                 }
             }
             RandomObject object = objects.poll();

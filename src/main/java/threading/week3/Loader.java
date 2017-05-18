@@ -29,7 +29,7 @@ public class Loader implements Runnable {
             RandomObject object = stock.poll();
             boolean loaded = cart.loadObject(object);
             if (loaded) {
-                LOGGER.debug(object + " is loaded into " +cart);
+                LOGGER.debug("{} is loaded into {}", object, cart);
             } else {
                 stock.addObject(object);
             }
