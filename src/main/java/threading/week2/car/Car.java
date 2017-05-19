@@ -104,5 +104,9 @@ public class Car {
         return convertible;
     }
 
+    State setConvertibleState(State state) {
+        return convertible = state;
+    }
+
 
 }

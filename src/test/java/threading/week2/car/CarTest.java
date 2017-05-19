@@ -16,23 +16,24 @@ public class CarTest {
 
     @Test
     public void everythingShouldBeOpenedAfterOpeningConvertible() throws Exception {
-        generateAndAssert((a, b, c, d) -> {
+        QuadConsumer<Boolean, Boolean, Boolean, Boolean> generateAndAssertFunction = (a, b, c, d) -> {
             Car car = generateCarState(a, b, c, d);
             car.openConvertible();
             assertThatEverythingIsInState(car, Car.State.OPENED);
-        });
+        };
+        qt().withExamples(20)
+                .forAll(booleans().all(), booleans().all(), booleans().all(), booleans().all())
+                .checkAssert(generateAndAssertFunction);
     }
 
     @Test
     public void everythingShouldBeClosednAfterClosingConvertible() throws Exception {
-        generateAndAssert((a, b, c, d) -> {
+        QuadConsumer<Boolean, Boolean, Boolean, Boolean> generateAndAssertFunction = (a, b, c, d) -> {
             Car car = generateCarState(a, b, c, d);
+            car.setConvertibleState(Car.State.OPENED);
             car.closeConvertible();
             assertThatEverythingIsInState(car, Car.State.CLOSED);
-        });
-    }
-
-    private void generateAndAssert(QuadConsumer<Boolean, Boolean, Boolean, Boolean> generateAndAssertFunction) {
+        };
         qt().withExamples(20)
                 .forAll(booleans().all(), booleans().all(), booleans().all(), booleans().all())
                 .checkAssert(generateAndAssertFunction);
@@ -55,10 +56,6 @@ public class CarTest {
             car.applyStateOnGlass(i, glassesState.get(i));
         });
         return car;
-    }
-
-    @Test
-    public void closeConvertible() throws Exception {
     }
 
 }
